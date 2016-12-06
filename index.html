@@ -13,13 +13,23 @@
                 <h1>Perspective rectification</h1>
             </header>
             <div id="content">
-                <form action="solution.py" method="post">
-                  <label>Upload your image</label>
+                <form action="rectification.py" method="post">
+                  <label for="image">Upload your image</label>
                   <input id="upload" type="file" onchange="readURL(this);" name="pic" accept="image/*" value="choose your file">
                   <input id="submit" type="submit" value="solve">
+                  <img id="pointer_div" onclick="point_it(event)" src="#" alt="your image" />
+                  <div id="wallstick">Linear algebra is the queen of science, accept it</div>
                 </form>
              <div id="new">
                 <p id="newHeader">Displayed images</p>
+                <form id="pointform" name="pointform" method="post">
+
+                <input type="text" name="form_x" size="4"/><input type="text" name="form_y" size="4" /></form>
+                <form id="general_form" action="rectification.py" method="post">
+                  <label for="list"></label>
+                  <input type="text" name="general" size="4"/>
+                <input id="submit_list" type="submit" value="submit"/></form>
+
                 <!--img id="blah" src="#" alt="your image"-->
                 <p id="newData">...something...</p>
 
@@ -43,20 +53,32 @@ to the coordinates of the corresponding point in the plane of the whiteboard.</p
           <div><a href="http://cs.ucu.edu.ua/en/"><img src="https://yeed.me/system/clubs/logos/000/163/626/medium/1459200_1438296833130750_8546142634332457569_n.jpg?1464188241" alt="CS@UCU_logotype" style="position: relative; width: 50%; height: 50%; "/></a></div></div>
         </div>
 
-    <script>$("input").change(function(e) {
+        <script>function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
-    for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+            reader.onload = function (e) {
+                $('#pointer_div')
+                    .attr('src', e.target.result);
 
-        var file = e.originalEvent.srcElement.files[i];
-
-        var img = document.createElement("img");
-        var reader = new FileReader();
-        reader.onloadend = function() {
-             img.src = reader.result;
+            };
+            $('#wallstick').fadeTo("fast", 0);
+            reader.readAsDataURL(input.files[0]);
         }
-        reader.readAsDataURL(file);
-        $("input").after(img);
-    }}); </script>
+    }</script>
+
+    <script language="JavaScript">
+function point_it(event){
+	pos_x = event.offsetX?(event.offsetX):event.pageX-document.getElementById("pointer_div").offsetLeft;
+	pos_y = event.offsetY?(event.offsetY):event.pageY-document.getElementById("pointer_div").offsetTop;
+	document.getElementById("pointer_div").style.left = (pos_x) ;
+	document.getElementById("pointer_div").style.top = (pos_y) ;
+	document.getElementById("pointer_div").style.visibility = "visible" ;
+	document.pointform.form_x.value = pos_x;
+	document.pointform.form_y.value = pos_y;
+  //document.pointform.general.value = [pos_x, pos_y];
+}
+</script>
 
     </body>
 </html>
