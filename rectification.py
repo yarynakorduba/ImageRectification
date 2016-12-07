@@ -52,7 +52,7 @@ def rectificate(im, coords):
     for j in range(im.height):
         for k in range(im.width):
             newxyz = move2board(h((j, k, 1)))
-            new_coords[j][k] = (int(newxyz[0]*100), int(newxyz[1]*100))
+            new_coords[j][k] = (int(newxyz[1]*im.height), int(newxyz[0]*im.width))
             new_height = max(new_coords[j][k][0], new_height)
             new_width = max(new_coords[j][k][1], new_width)
 
