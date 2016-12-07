@@ -1,6 +1,8 @@
 import numpy
 from PIL import Image
 
+class WrongCoordinatesException(Exception):
+    pass
 
 def rectificate(im, coords):
 
@@ -30,8 +32,11 @@ def rectificate(im, coords):
                 make_equations(points[3][0], points[3][1], 1, 1)[0],
                 make_equations(points[3][0], points[3][1], 1, 1)[1],
                 w]
+    try:
+        L = make_more_equations(coords)
+    except:
+        raise WrongCoordinatesException("Wrong coordinates")
 
-    L = make_more_equations(coords)
     h = numpy.linalg.solve(L, b)
     H = numpy.matrix([h[:3], h[3:6], h[6:]])
 

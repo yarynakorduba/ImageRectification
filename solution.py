@@ -23,7 +23,13 @@ def web_rectificate():
                 r.append(z)
         coords = r
 
-        return render_template("index.html", new_im="results/"+rectification.rectificate(im, coords))
+        try:
+            new_im_addr = "results/" + rectification.rectificate(im, coords)
+        except rectification.WrongCoordinatesException:
+            #if we get wrong coordinates exception we show the same image
+            new_im_addr = 'uploads/file' + ext
+
+        return render_template("index.html", )
     else:
         return render_template("index.html", new_im="results/new.png")
 
