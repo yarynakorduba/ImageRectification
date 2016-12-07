@@ -5,37 +5,37 @@ from PIL import Image
 
 @app.route('/rectification', methods=["GET", "POST"])
 def web_rectificate():
-        if request.method == "POST":
-            coords = request.form['general']
+    if request.method == "POST":
+        coords = request.form['general']
 
-            im = request.files['pic']
-            ext = im.filename[im.filename.find('.'):]
-            im.save('uploads/file' + ext)
-            im = Image.open('uploads/file' + ext)
-            coords = coords.split()
-            r = []
-            for el in range(len(coords)):
-                if el % 2 == 0:
-                    z = []
-                    coords[el] = int(coords[el])
-                    z.append(coords[el])
-                elif coords[el][-1] == ';':
-                    z.append(int(coords[el][:-1]))
-                    r.append(z)
-    #
-            coords = r
+        im = request.files['pic']
+        ext = im.filename[im.filename.find('.'):]
+        im.save('uploads/file' + ext)
+        im = Image.open('uploads/file' + ext)
+        coords = coords.split()
+        r = []
+        for el in range(len(coords)):
+            if el % 2 == 0:
+                z = []
+                coords[el] = int(coords[el])
+                z.append(coords[el])
+            elif coords[el][-1] == ';':
+                z.append(int(coords[el][:-1]))
+                r.append(z)
+#
+        coords = r
 
-            print(coords)
+        print(coords)
 
-            try:
-                new_im_addr = url_for("static", filename=rectification.rectificate(im, coords))
-            except rectification.WrongCoordinatesException:
-                #if we get wrong coordinates exception we show the same image
-                new_im_addr = url_for("static", filename="exception.png")
+        try:
+            new_im_addr = url_for("static", filename=rectification.rectificate(im, coords))
+        except rectification.WrongCoordinatesException:
+            #if we get wrong coordinates exception we show the same image
+            new_im_addr = url_for("static", filename="exception.png")
 
-            return render_template("index.html", new_im=new_im_addr)
-        else:
-            return render_template("index.html", new_im="none")
+        return render_template("index.html", new_im=new_im_addr)
+    else:
+        return render_template("index.html")
 
 
 if __name__ == '__main__':
