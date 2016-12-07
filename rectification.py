@@ -32,13 +32,13 @@ def rectificate(im, coords):
                 make_equations(points[3][0], points[3][1], 1, 1)[0],
                 make_equations(points[3][0], points[3][1], 1, 1)[1],
                 w]
+
     try:
         L = make_more_equations(coords)
-    except:
+        h = numpy.linalg.solve(L, b)
+        H = numpy.matrix([h[:3], h[3:6], h[6:]])
+    except :
         raise WrongCoordinatesException("Wrong coordinates")
-
-    h = numpy.linalg.solve(L, b)
-    H = numpy.matrix([h[:3], h[3:6], h[6:]])
 
     new_coords = [[0 for j in range(im.width)] for i in range(im.height)]
 
@@ -66,6 +66,6 @@ def rectificate(im, coords):
             except:
                 print(new_coords[j][k])
 
-    new_im.save("results/new.png")
-    return "/results/new.png"
+    new_im.save("static/results/new.png")
+    return "results/new.png"
 
