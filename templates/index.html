@@ -21,11 +21,10 @@
             </header>
             <div id="content">
                 <form action='/' method="POST" enctype="multipart/form-data">
-                  <label for="image">Upload your image</label>
+                  <label for="upload">Upload your image</label>
                   <input id="upload" type="file" onchange="readURL(this);" name="pic" accept="image/*" value="choose your file">
                   <img id="pointer_div" onclick="point_it(event)" src="#" alt="your image" />
                   <div id="wallstick">Linear algebra is the queen of science, accept it</div>
-                    <label for="list"></label>
                     <input type="text" name="general" size="4"/>
                   <input id="submit_list" type="submit" value="submit"/>
                 </form>
@@ -35,7 +34,7 @@
 
                 <div>X:</div><input type="text" name="form_x" size="4"/><div>Y:</div><input type="text" name="form_y" size="4" /></form>
                 {% if new_im is defined %}
-                <img src={{new_im}} style="margin-left: 5%; margin-top: 2%;"/>
+                <img src="results/new.png" style="margin-left: 5%; margin-top: 2%;"/>
                 {% endif %}
 
                 <p id="newData">...something...</p>
