@@ -5,8 +5,9 @@ from PIL import Image
 
 @app.route('/rectification', methods=["GET", "POST"])
 def web_rectificate():
-    if request.method == "POST":
+        if request.method == "POST":
         coords = request.form['general']
+
         im = request.files['pic']
         ext = im.filename[im.filename.find('.'):]
         im.save('uploads/file' + ext)
@@ -16,11 +17,15 @@ def web_rectificate():
         for el in range(len(coords)):
             if el % 2 == 0:
                 z = []
-                z.append(int(coords[el][0]))
-            else:
-                z.append(int(coords[el][0]))
+                coords[el] = int(coords[el])
+                z.append(coords[el])
+            elif coords[el][-1] == ';':
+                z.append(int(coords[el][:-1]))
                 r.append(z)
+#
         coords = r
+
+        print(coords)
 
         try:
             new_im_addr = url_for("static", filename=rectification.rectificate(im, coords))
