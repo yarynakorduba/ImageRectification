@@ -5,7 +5,7 @@ from PIL import Image
 
 @app.route('/rectification', methods=["GET", "POST"])
 def web_rectificate():
-        if request.method == "POST":
+    if request.method == "POST":
         coords = request.form['general']
 
         im = request.files['pic']
