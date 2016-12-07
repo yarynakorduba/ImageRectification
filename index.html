@@ -6,6 +6,13 @@
         <meta charset="utf-8">
         <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
         <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+             tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+         });
+         </script>
+        <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    </head>
     </head>
     <body>
         <div id="container">
@@ -13,22 +20,23 @@
                 <h1>Perspective rectification</h1>
             </header>
             <div id="content">
-                <form action="rectification.py" method="post">
+                <form action='/' method="POST" enctype="multipart/form-data">
                   <label for="image">Upload your image</label>
                   <input id="upload" type="file" onchange="readURL(this);" name="pic" accept="image/*" value="choose your file">
-                  <input id="submit" type="submit" value="solve">
                   <img id="pointer_div" onclick="point_it(event)" src="#" alt="your image" />
                   <div id="wallstick">Linear algebra is the queen of science, accept it</div>
+                    <label for="list"></label>
+                    <input type="text" name="general" size="4"/>
+                  <input id="submit_list" type="submit" value="submit"/>
                 </form>
              <div id="new">
                 <p id="newHeader">Displayed images</p>
-                <form id="pointform" name="pointform" method="post">
+                <form id="pointform" name="pointform" enctype="multipart/form-data">
 
-                <input type="text" name="form_x" size="4"/><input type="text" name="form_y" size="4" /></form>
-                <form id="general_form" action="rectification.py" method="post">
-                  <label for="list"></label>
-                  <input type="text" name="general" size="4"/>
-                <input id="submit_list" type="submit" value="submit"/></form>
+                <div>X:</div><input type="text" name="form_x" size="4"/><div>Y:</div><input type="text" name="form_y" size="4" /></form>
+                {% if new_im is defined %}
+                <img src={{new_im}} style="margin-left: 5%; margin-top: 2%;"/>
+                {% endif %}
 
                 <!--img id="blah" src="#" alt="your image"-->
                 <p id="newData">...something...</p>
