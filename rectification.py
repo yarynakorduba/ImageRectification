@@ -61,6 +61,6 @@ def rectificate(im, coords):
             except:
                 print(new_coords[j][k])
 
-        new_im.save("results/new.png")
-        return "/results/new.png"
+    new_im.save("results/new.png")
+    return "/results/new.png"
 
