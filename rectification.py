@@ -1,8 +1,9 @@
 import numpy
-
 from PIL import Image
 
+
 def rectificate(im, coords):
+
     def move2board(a):
         a.tolist()
         a[0] = a[0] / a[2]
@@ -34,21 +35,32 @@ def rectificate(im, coords):
     h = numpy.linalg.solve(L, b)
     H = numpy.matrix([h[:3], h[3:6], h[6:]])
 
+    new_coords = [[0 for j in range(im.width)] for i in range(im.height)]
+
     def h(coords):
         return H * numpy.matrix(coords).transpose()
 
-    new_im = Image.new("RGB", (im.height, im.width))
-    for k in range(im.height):
-        for j in range(im.width):
-            try:
-                new_im.putpixel(
-                    (int(move2board(h((j, k, 1)))[:2][0] * 300), int(move2board(h((j, k, 1)))[:2][1] * 300)),
-                    im.getpixel((j, k)))
-            except IndexError:
-                print("er")
-    new_im.show()
-    new_im.save("results/new.png")
-    return "/results/new.png"
-   # return render_template('index.html', new_im=new_im)
+    new_height = 0
+    new_width = 0
 
+
+    for j in range(im.height):
+        for k in range(im.width):
+            newxyz = move2board(h((j, k, 1)))
+            new_coords[j][k] = (int(newxyz[0]*100), int(newxyz[1]*100))
+            new_height = max(new_coords[j][k][0], new_height)
+            new_width = max(new_coords[j][k][1], new_width)
+
+
+    new_im = Image.new("RGB", (new_height, new_width))
+
+    for j in range(im.height):
+        for k in range(im.width):
+            try:
+                new_im.putpixel(new_coords[j][k], im.getpixel((j, k)))
+            except:
+                print(new_coords[j][k])
+
+        new_im.save("results/new.png")
+        return "/results/new.png"
 
