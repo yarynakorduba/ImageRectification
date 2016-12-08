@@ -29,12 +29,16 @@ body #container {
 #content form {
   width: 500px;
 }
-#content form label {
-  font-size: 20px;
 
+#content form label {
+  margin-right: 7px;
+  font-size: 20px;
+  color: #5d4077;
 }
 
-#content form input {
+
+
+#uploader_form input {
   display: block;
   margin-top: 10px;
   margin-left: 25px;
@@ -45,6 +49,7 @@ body #container {
 
 #upload {
   width: 300px;
+  color: #5d4077;
 }
 #submit {
   width:107px;
@@ -65,12 +70,26 @@ z-index: 1;
 #newHeader {
   margin-top: 2%;
   font-size: 20px;
+  color: #5d4077;
 }
 
 #newData {
   margin-top: 2%;
   font-size: 20px;
   font-style: italic;
+}
+
+#pointform input {
+margin-right: 20px;
+display: inline;
+}
+
+#init_image {
+height: 250px;
+}
+
+#new_image {
+height: 250px;
 }
 
 #explanation {
@@ -104,20 +123,16 @@ z-index: 1;
   font-style: italic;
 }
 
-#pointform input {
-  display: block;
-  margin-left: 20px;
-}
+
 
 #wallstick {
-  margin-top: -30px;
-  text-align: center;
+  margin-top: -31px;
   font-size: 20px;
   position: relative;
   width: 500px;
-  height: 30px;
+  height: 31px;
   z-index: 5;
-  background-color: lavenderblush;
+  background-color: #fbf3f6;
   color: #5d4077;
 
 }
