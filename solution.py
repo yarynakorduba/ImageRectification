@@ -10,8 +10,11 @@ def web_rectificate():
 
         im = request.files['pic']
         ext = im.filename[im.filename.find('.'):]
-        im.save('uploads/file' + ext)
-        im = Image.open('uploads/file' + ext)
+        filname = "uploads/" + str(random.randint(0, 100000000))
+        init_im_addr = url_for("static", filename=filname + ext)
+        im.save('static/' + filname + ext)
+        im = Image.open('static/' + filname + ext)
+        
         coords = coords.split()
         r = []
         for el in range(len(coords)):
@@ -33,7 +36,7 @@ def web_rectificate():
             #if we get wrong coordinates exception we show the same image
             new_im_addr = url_for("static", filename="exception.png")
 
-        return render_template("index.html", new_im=new_im_addr)
+        return render_template("index.html", im=init_im_addr, new_im=new_im_addr)
     else:
         return render_template("index.html")
 
