@@ -66,6 +66,7 @@ def rectificate(im, coords):
             except:
                 print(new_coords[j][k])
 
-    new_im.save("static/results/new.png")
-    return "results/new.png"
+    new_address = "results/" + str(random.randint(0, 100000000)) + ".png"
+    new_im.save("static/" + new_address)
+    return new_address
 
