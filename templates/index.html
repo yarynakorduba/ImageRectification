@@ -25,16 +25,16 @@
                   <input id="upload" type="file" onchange="readURL(this);" name="pic" accept="image/*" value="choose your file">
                   <img id="pointer_div" onclick="point_it(event)" src="#" alt="your image" />
                   <div id="wallstick">Linear algebra is the queen of science, accept it</div>
-                    <input type="text" name="general" size="4"/>
+                    <input id="points_uploader" type="text" name="general" size="10"/>
                   <input id="submit_list" type="submit" value="submit"/>
                 </form>
              <div id="new">
-                <p id="newHeader">Displayed images</p>
                 <form id="pointform" name="pointform" enctype="multipart/form-data">
 
                 <label>X:</label><input class="coords" type="text" name="form_x" size="4"/><label>Y:</label><input class="coords" type="text" name="form_y" size="4" /></form>
+                 <p id="newHeader">Displayed images</p>
                 {% if new_im is defined %}
-                 <img id="init_image" src="static/uploads/file.png"/>
+                 <img id="init_image" src="{{im}}"/>
                 <img id="new_image" src="{{new_im}}" style="margin-left: 5%; margin-top: 2%;"/>
                 {% endif %}
 
@@ -67,6 +67,8 @@ to the coordinates of the corresponding point in the plane of the whiteboard.</p
             reader.onload = function (e) {
                 $('#pointer_div')
                     .attr('src', e.target.result);
+                $('#pointer_div')
+                    .attr('z-index', '10');
 
             };
             $('#wallstick').fadeTo("fast", 0);
@@ -83,6 +85,7 @@ function point_it(event){
 	document.getElementById("pointer_div").style.visibility = "visible" ;
 	document.pointform.form_x.value = pos_x;
 	document.pointform.form_y.value = pos_y;
+	document.getElementById('points_uploader').value += " " + pos_x + " " + pos_y + ";";
 }
 </script>
 
