@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request, url_for
-app = Flask(__name__, )
 import rectification
+import random
+from flask import Flask, render_template, request, url_for
 from PIL import Image
+
+app = Flask(__name__, )
 
 @app.route('/rectification', methods=["GET", "POST"])
 def web_rectificate():
