@@ -38,9 +38,9 @@ def web_rectificate():
             #if we get wrong coordinates exception we show the same image
             new_im_addr = url_for("static", filename="exception.png")
 
-        return render_template("index.html", im=init_im_addr, new_im=new_im_addr)
+        return render_template("rectify_index.html", im=init_im_addr, new_im=new_im_addr)
     else:
-        return render_template("index.html")
+        return render_template("rectify_index.html")
 
 
 if __name__ == '__main__':
