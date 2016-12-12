@@ -16,7 +16,10 @@ def web_rectificate():
         init_im_addr = url_for("static", filename=filname + ext)
         im.save('static/' + filname + ext)
         im = Image.open('static/' + filname + ext)
-        
+        wpercent = (250 / float(im.size[1]))
+        wsize = int((float(im.size[0]))*float(wpercent))
+        im = im.resize((wsize, 250), Image.ANTIALIAS)
+        im.save('static/' + filname + ext)
         coords = coords.split()
         r = []
         for el in range(len(coords)):
