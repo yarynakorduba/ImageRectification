@@ -1,6 +1,6 @@
 import numpy
 from PIL import Image
-
+import random
 class WrongCoordinatesException(Exception):
     pass
 
@@ -40,7 +40,7 @@ def rectificate(im, coords):
     except :
         raise WrongCoordinatesException("Wrong coordinates")
 
-    new_coords = [[0 for j in range(im.width)] for i in range(im.height)]
+    new_coords = [[0 for j in range(im.size[0])] for i in range(im.size[1])]
 
     def h(coords):
         return H * numpy.matrix(coords).transpose()
@@ -49,18 +49,18 @@ def rectificate(im, coords):
     new_width = 0
 
 
-    for j in range(im.height):
-        for k in range(im.width):
+    for j in range(im.size[1]):
+        for k in range(im.size[0]):
             newxyz = move2board(h((j, k, 1)))
-            new_coords[j][k] = (int(newxyz[1]*im.height), int(newxyz[0]*im.width))
-            new_height = max(new_coords[j][k][0], new_height)
-            new_width = max(new_coords[j][k][1], new_width)
+            new_coords[j][k] = ( int(newxyz[0]*im.size[0]), int(newxyz[1]*im.size[1]))
+            new_height = max(new_coords[j][k][1], new_height)
+            new_width = max(new_coords[j][k][0], new_width)
 
 
     new_im = Image.new("RGB", (new_height, new_width))
 
-    for j in range(im.height):
-        for k in range(im.width):
+    for j in range(im.size[1]):
+        for k in range(im.size[0]):
             try:
                 new_im.putpixel(new_coords[j][k], im.getpixel((j, k)))
             except:
@@ -70,3 +70,7 @@ def rectificate(im, coords):
     new_im.save("static/" + new_address)
     return new_address
 
+if __name__ == '__main__':
+    im = Image.open("board.png")
+    print(im.size)
+    rectificate(Image.open("board.png"), [[358,36],[329,597],[592,157],[580,483]])
