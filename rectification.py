@@ -1,6 +1,6 @@
 import numpy
 from PIL import Image
-import random
+import datetime
 class WrongCoordinatesException(Exception):
     pass
 
@@ -40,37 +40,43 @@ def rectificate(im, coords):
     except :
         raise WrongCoordinatesException("Wrong coordinates")
 
-    new_coords = [[0 for j in range(im.size[0])] for i in range(im.size[1])]
+    new_coords = [[0 for j in range(im.size[1])] for i in range(im.size[0])]
 
     def h(coords):
         return H * numpy.matrix(coords).transpose()
 
     new_height = 0
     new_width = 0
+    new_negative_width = 0
+    new_negative_height = 0
 
-
-    for j in range(im.size[1]):
-        for k in range(im.size[0]):
+    for j in range(im.size[0]):
+        for k in range(im.size[1]):
             newxyz = move2board(h((j, k, 1)))
-            new_coords[j][k] = ( int(newxyz[0]*im.size[0]), int(newxyz[1]*im.size[1]))
+            new_coords[j][k] = (int(newxyz[0] * im.size[0]/2), int(newxyz[1]*im.size[1]/2))
             new_height = max(new_coords[j][k][1], new_height)
             new_width = max(new_coords[j][k][0], new_width)
+            new_negative_width = min(new_coords[j][k][0], new_negative_width)
+            new_negative_height = min(new_coords[j][k][1], new_negative_height)
 
+    new_im = Image.new("RGB", ( abs(new_negative_width) + new_width, abs(new_negative_height) + new_height), color=(255,255,255))
 
-    new_im = Image.new("RGB", (new_height, new_width))
-
-    for j in range(im.size[1]):
-        for k in range(im.size[0]):
+    for j in range(im.size[0]-1):
+        for k in range(im.size[1]-1):
             try:
-                new_im.putpixel(new_coords[j][k], im.getpixel((j, k)))
-            except:
-                print(new_coords[j][k])
-
-    new_address = "results/" + str(random.randint(0, 100000000)) + ".png"
+                new_im.putpixel((new_coords[j][k][0] + abs(new_negative_width), abs(new_negative_height) + new_coords[j][k][1]), im.getpixel((j, k)))
+                new_im.putpixel((new_coords[j][k][0] + abs(new_negative_width)+1, abs(new_negative_height) + new_coords[j][k][1]+1), im.getpixel((j, k)))
+                
+            except Exception as e:
+                print(e)
+               # print((new_coords[j][k][1]+ abs(new_negative_width),  abs(new_negative_height) + new_coords[j][k][0]))
+                print(str(j)+"  "+str(k))
+    print(new_im.size)
+    new_address = "results/" + datetime.datetime.now().strftime("%m-%d-%Y_%H:%M:%S") + ".png"
     new_im.save("static/" + new_address)
     return new_address
 
 if __name__ == '__main__':
     im = Image.open("board.png")
     print(im.size)
-    rectificate(Image.open("board.png"), [[358,36],[329,597],[592,157],[580,483]])
+    rectificate(Image.open("k.jpg"), [[358,36],[329,597],[592,157],[580,483]])
